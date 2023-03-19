@@ -1,0 +1,35 @@
+import cv2
+import os
+import time
+
+# Intervalle de temps entre les captures d'images (en secondes)
+interval = 2
+
+# Chemin vers le dossier de stockage des images
+storage_folder = 'images/captures'
+
+# Vérifie si le dossier de stockage existe et le crée si ce n'est pas le cas
+if not os.path.exists(storage_folder):
+    os.makedirs(storage_folder)
+
+# Initialise la caméra
+camera = cv2.VideoCapture(0)
+
+# Boucle de capture d'images
+while True:
+    # Capture une image à partir de la caméra
+    ret, image = camera.read()
+
+    # Si l'image a été correctement capturée
+    if ret:
+        # Génère un nom de fichier pour l'image
+        file_name = f'{int(time.time())}.jpg'
+
+        # Enregistre l'image dans le dossier de stockage
+        cv2.imwrite(os.path.join(storage_folder, file_name), image)
+
+    # Dort pendant l'intervalle de temps défini
+    time.sleep(interval)
+
+# Relâche la caméra
+camera.release()
